@@ -11,7 +11,8 @@ namespace IT_Service_Help_Desk.Database
 {
     public class DatabaseConnector
     {
-        private const string ConnectionString = @"Server=127.0.0.1;User ID = adminNET; Password=admin;Database=ITHD";
+        private const string ConnectionString = @"Server=127.0.0.1;User ID = adminNET; Password=admin;Database="+ DataBaseName;
+        public const string DataBaseName = "ITHD";
 
         public bool CanConnectToDataBase()
         {
@@ -19,14 +20,16 @@ namespace IT_Service_Help_Desk.Database
             try
             {
                 connection.Open();
-                Console.WriteLine("Connected to Database!");
                 return true;
             }
             catch
             {
+                Console.WriteLine("Check connection to database!");
                 return false;
             }
             
         }
+        public MySqlConnection GetConnection() => new MySqlConnection(ConnectionString);
+
     }
 }

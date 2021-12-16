@@ -10,12 +10,13 @@ builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
 builder.Services.AddScoped<DatabaseConnector>();
+builder.Services.AddScoped<TableChecker>();
 
 var app = builder.Build();
 var scope = app.Services.CreateScope();
 if (!scope.ServiceProvider.GetService<DatabaseConnector>().CanConnectToDataBase())
     app.StopAsync();
-
+scope.ServiceProvider.GetService<TableChecker>().IsTable();
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
 {
