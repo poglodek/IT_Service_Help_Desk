@@ -1,4 +1,5 @@
 using IT_Service_Help_Desk.Database;
+using IT_Service_Help_Desk.Helpers;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -11,6 +12,7 @@ builder.Services.AddSwaggerGen();
 
 builder.Services.AddScoped<DatabaseConnector>();
 builder.Services.AddScoped<TableChecker>();
+builder.Services.AddScoped<TupleHelper>();
 
 var app = builder.Build();
 var scope = app.Services.CreateScope();

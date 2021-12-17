@@ -13,6 +13,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "IT_Service_Help_Desk.Dto", 
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "IT_Service_Help_Desk.Services", "IT_Service_Help_Desk.Services\IT_Service_Help_Desk.Services.csproj", "{F79C82C3-3A5C-4029-BC0E-23FFFE73AD90}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "IT Service Help Desk.Helpers", "IT Service Help Desk.Helpers\IT Service Help Desk.Helpers.csproj", "{3C6F52DB-BF06-4153-BFC5-BBBC5A122B76}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -39,6 +41,10 @@ Global
 		{F79C82C3-3A5C-4029-BC0E-23FFFE73AD90}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{F79C82C3-3A5C-4029-BC0E-23FFFE73AD90}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{F79C82C3-3A5C-4029-BC0E-23FFFE73AD90}.Release|Any CPU.Build.0 = Release|Any CPU
+		{3C6F52DB-BF06-4153-BFC5-BBBC5A122B76}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{3C6F52DB-BF06-4153-BFC5-BBBC5A122B76}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{3C6F52DB-BF06-4153-BFC5-BBBC5A122B76}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{3C6F52DB-BF06-4153-BFC5-BBBC5A122B76}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
