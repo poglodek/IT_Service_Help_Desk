@@ -17,11 +17,16 @@ namespace IT_Service_Help_Desk.Database
         {
             "Roles","Users", "Tickets", "Tickets_Status", "Tickets_Comments"
         };
-        //TableName, ColumnName, Column definition, if Exist Column
-        private static List<(string, string, string, bool)> Columns = new List<(string, string, string, bool)>()
+
+
+        //TableName, ColumnName, Column definition OR FOREIGN KEY Column Name, FOREIGN KEY Table Name OR NULL if column dont have  FOREIGN KEY
+        private List<(string, string, string, string)> Columns = new List<(string, string, string, string)>()
         {
-            ("Roles","RoleName", "varchar(20)", false), 
-            ("Roles","id_Users", "int(32)", false)
+            ("Users","FirstName", "varchar(20)", null)!, 
+            ("Users","LastName", "varchar(20)",null)!, 
+            ("Users","Email", "varchar(32)",null)!, 
+            ("Users","Password", "varchar(513)",null)!,
+            ("Roles","Id_role", "Id", "Users"),
         };
 
         public TableChecker(DatabaseConnector database, TupleHelper tupleHelper)
@@ -54,7 +59,7 @@ namespace IT_Service_Help_Desk.Database
 
         public void CreateTable(string tableName)
         {
-            var query = $"CREATE TABLE {tableName}(id INT(32) UNSIGNED AUTO_INCREMENT PRIMARY KEY)";
+            var query = $"CREATE TABLE {tableName}(Id INT(32) UNSIGNED AUTO_INCREMENT PRIMARY KEY)";
             var cmd = new MySqlCommand(query, _connection);
             var reader = cmd.ExecuteReader();
             reader.Close();
@@ -74,11 +79,11 @@ namespace IT_Service_Help_Desk.Database
                     var column = reader.GetString("Field");
 
                     var tuple = Columns.FirstOrDefault(x =>
-                       x.Item1.ToUpper() == table.ToUpper() && x.Item2.ToUpper() == column.ToUpper());
+                        x.Item1.ToUpper() == table.ToUpper() && x.Item2.ToUpper() == column.ToUpper());
                     if (tuple.Item1 is not null)
                     {
                         Columns.Remove(tuple);
-                        Columns.Add(_tupleHelper.ModifyTuple(tuple.Item1, tuple.Item2, tuple.Item3, true));
+                        //Columns.Add(_tupleHelper.CreateTuple(tuple.Item1, tuple.Item2, tuple.Item3, true));
                     }
 
                 }
@@ -94,14 +99,14 @@ namespace IT_Service_Help_Desk.Database
         {
             foreach (var column in Columns)
             {
-                if (!column.Item4)
-                {
-                    Console.WriteLine($"ALTER TABLE {column.Item1} ADD {column.Item2} {column.Item3};");
-                    var query = $"ALTER TABLE {column.Item1} ADD {column.Item2} {column.Item3};";
-                    var cmd = new MySqlCommand(query, _connection);
-                    var reader = cmd.ExecuteReader();
-                    reader.Close();
-                }
+                string query = "ALTER TABLE ";
+                if (column.Item4 is null)
+                    query += $"{column.Item1} ADD {column.Item2} {column.Item3};";
+                else
+                    query += $"{column.Item1} ADD CONSTRAINT {column.Item2} FOREIGN KEY ({column.Item3})  REFERENCES {column.Item4} ({column.Item3});"; 
+                var cmd = new MySqlCommand(query, _connection);
+                var reader = cmd.ExecuteReader();
+                reader.Close();
             }
         }
             
