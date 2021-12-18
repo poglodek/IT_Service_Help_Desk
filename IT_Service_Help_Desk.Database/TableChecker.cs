@@ -10,29 +10,58 @@ namespace IT_Service_Help_Desk.Database
 {
     public class TableChecker
     {
-        private readonly TupleHelper _tupleHelper;
         private readonly MySqlConnection _connection;
 
         private string[] tables = new string[]
         {
-            "Roles","Users", "Tickets", "Tickets_Status", "Tickets_Comments"
+            "Roles","Users", "Tickets", "Tickets_Status", "Tickets_Comments", "Tickets_Type"
         };
 
 
         //TableName, ColumnName, Column definition OR FOREIGN KEY Column Name, FOREIGN KEY Table Name OR NULL if column dont have  FOREIGN KEY
         private List<(string, string, string, string)> Columns = new List<(string, string, string, string)>()
         {
+
+            //Create first column without references 
+            //Users
+            ("Users","Id", "int(32)", null)!,
             ("Users","FirstName", "varchar(20)", null)!, 
             ("Users","LastName", "varchar(20)",null)!, 
             ("Users","Email", "varchar(32)",null)!, 
             ("Users","Password", "varchar(513)",null)!,
-            ("Roles","Id_role", "Id", "Users"),
+            
+            //Roles
+            ("Roles","Id", "int(32)", null)!,
+            ("Roles","RoleName", "varchar(20)", null)!,
+
+            //Tickets
+            ("Tickets","Id", "int(32)", null)!,
+            ("Tickets","Title", "varchar(32)", null)!,
+            ("Tickets","Description", "varchar(255)", null)!,
+            ("Tickets","DateTime", "datetime", null)!,
+
+            //Tickets_Type
+            ("Tickets_Type","Id", "int(32)", null)!,
+
+            //Tickets_Comments
+            ("Tickets_Comments","Id", "int(32)", null)!,
+
+            //Tickets_Status
+            ("Tickets_Status","Id", "int(32)", null)!,
+
+            //references here!
+            ("Users","Id_role", "Id", "Roles"),
+            ("Tickets","Id_user_Created", "Id", "Users"),
+            ("Tickets","Id_tickets_status", "Id", "Tickets_Status"),
+            ("Tickets","Id_tickets_type", "Id", "Tickets_Type"),
+            ("Tickets","Id_tickets_comments", "Id", "Tickets_Comments"),
         };
 
-        public TableChecker(DatabaseConnector database, TupleHelper tupleHelper)
+        private List<(string, string, string, string)> ColumnsExist;
+        public TableChecker(DatabaseConnector database)
         {
-            _tupleHelper = tupleHelper;
             _connection = database.GetConnection();
+            ColumnsExist = new List<(string, string, string, string)>(Columns);
         }
 
         public bool IsTable()
@@ -77,25 +106,20 @@ namespace IT_Service_Help_Desk.Database
                 while(reader.Read())
                 {
                     var column = reader.GetString("Field");
-
                     var tuple = Columns.FirstOrDefault(x =>
                         x.Item1.ToUpper() == table.ToUpper() && x.Item2.ToUpper() == column.ToUpper());
                     if (tuple.Item1 is not null)
                     {
                         Columns.Remove(tuple);
-                        //Columns.Add(_tupleHelper.CreateTuple(tuple.Item1, tuple.Item2, tuple.Item3, true));
                     }
-
                 }
-                 
                 reader.Close();
             }
-
-            CreateColumns();
+            PreapartColumns();
             _connection.Close();
         }
 
-        private void CreateColumns()
+        private void PreapartColumns()
         {
             foreach (var column in Columns)
             {
@@ -103,11 +127,22 @@ namespace IT_Service_Help_Desk.Database
                 if (column.Item4 is null)
                     query += $"{column.Item1} ADD {column.Item2} {column.Item3};";
                 else
-                    query += $"{column.Item1} ADD CONSTRAINT {column.Item2} FOREIGN KEY ({column.Item3})  REFERENCES {column.Item4} ({column.Item3});"; 
-                var cmd = new MySqlCommand(query, _connection);
-                var reader = cmd.ExecuteReader();
-                reader.Close();
+                {
+                    var jakomobyc = ColumnsExist.FirstOrDefault(x => x.Item1 == column.Item4 && x.Item2 == column.Item3);
+                    var kolumna = $"ALTER TABLE {column.Item1} ADD {column.Item2} {jakomobyc.Item3} UNSIGNED NOT NULL;";
+                    ExecuteSqlCommand(kolumna);
+                    query += $"{column.Item1} ADD CONSTRAINT {column.Item2}_fk FOREIGN KEY ({column.Item2})  REFERENCES {column.Item4}({column.Item3});";
+                }
+                ExecuteSqlCommand(query);
+
             }
+        }
+
+        private void ExecuteSqlCommand(string query)
+        {
+            var cmd = new MySqlCommand(query, _connection);
+            var reader = cmd.ExecuteReader();
+            reader.Close();
         }
             
     }
