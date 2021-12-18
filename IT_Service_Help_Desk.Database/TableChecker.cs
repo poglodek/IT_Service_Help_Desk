@@ -23,6 +23,7 @@ namespace IT_Service_Help_Desk.Database
             ("Users", "LastName", "varchar(20)", null)!,
             ("Users", "Email", "varchar(32)", null)!,
             ("Users", "Password", "varchar(513)", null)!,
+            ("Users", "IsEnabled", "bit(1)", null)!,
 
             //Roles
             ("Roles", "Id", "int(32)", null)!,
@@ -36,19 +37,24 @@ namespace IT_Service_Help_Desk.Database
 
             //Tickets_Type
             ("Tickets_Type", "Id", "int(32)", null)!,
+            ("Tickets_Type", "TypeName", "varchar(32)", null)!,
 
             //Tickets_Comments
             ("Tickets_Comments", "Id", "int(32)", null)!,
+            ("Tickets_Comments", "Comment", "varchar(32)", null)!,
+            ("Tickets_Comments", "DateTime", "datetime", null)!,
 
             //Tickets_Status
             ("Tickets_Status", "Id", "int(32)", null)!,
+            ("Tickets_Status", "Status", "varchar(32)", null)!,
 
             //references here!
             ("Users", "Id_role", "Id", "Roles"),
             ("Tickets", "Id_user_Created", "Id", "Users"),
             ("Tickets", "Id_tickets_status", "Id", "Tickets_Status"),
             ("Tickets", "Id_tickets_type", "Id", "Tickets_Type"),
-            ("Tickets", "Id_tickets_comments", "Id", "Tickets_Comments"),
+            ("Tickets_Comments", "Id_user", "Id", "Users"),
+            ("Tickets_Comments", "Id_Tickets", "Id", "Tickets"),
         };
 
         private readonly List<(string, string, string, string)> _columnsExist;

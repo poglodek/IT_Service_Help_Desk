@@ -1,5 +1,7 @@
 using IT_Service_Help_Desk.Database;
 using IT_Service_Help_Desk.Helpers;
+using IT_Service_Help_Desk.Services.Services;
+using ILogger = IT_Service_Help_Desk.Services.IServices.ILogger;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -13,12 +15,15 @@ builder.Services.AddSwaggerGen();
 builder.Services.AddScoped<DatabaseConnector>();
 builder.Services.AddScoped<TableChecker>();
 builder.Services.AddScoped<TupleHelper>();
+builder.Services.AddScoped<DatabaseManagement>();
+builder.Services.AddTransient<ILogger,Logger>();
 
 var app = builder.Build();
 var scope = app.Services.CreateScope();
 if (!scope.ServiceProvider.GetService<DatabaseConnector>().CanConnectToDataBase())
     app.StopAsync();
 scope.ServiceProvider.GetService<TableChecker>().IsTable();
+scope.ServiceProvider.GetService<ILogger>().LogInfo("Test info");
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
 {
