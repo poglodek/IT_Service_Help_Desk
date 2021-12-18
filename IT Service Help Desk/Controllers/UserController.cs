@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
 
 namespace IT_Service_Help_Desk.Controllers
 {
@@ -11,6 +6,6 @@ namespace IT_Service_Help_Desk.Controllers
     [Route("[controller]")]
     public class UserController : ControllerBase
     {
-        
+
     }
 }

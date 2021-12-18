@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using IT_Service_Help_Desk.Helpers;
-using MySql.Data.MySqlClient;
+﻿using MySql.Data.MySqlClient;
 
 namespace IT_Service_Help_Desk.Database
 {
@@ -24,37 +18,37 @@ namespace IT_Service_Help_Desk.Database
 
             //Create first column without references 
             //Users
-            ("Users","Id", "int(32)", null)!,
-            ("Users","FirstName", "varchar(20)", null)!, 
-            ("Users","LastName", "varchar(20)",null)!, 
-            ("Users","Email", "varchar(32)",null)!, 
-            ("Users","Password", "varchar(513)",null)!,
-            
+            ("Users", "Id", "int(32)", null)!,
+            ("Users", "FirstName", "varchar(20)", null)!,
+            ("Users", "LastName", "varchar(20)", null)!,
+            ("Users", "Email", "varchar(32)", null)!,
+            ("Users", "Password", "varchar(513)", null)!,
+
             //Roles
-            ("Roles","Id", "int(32)", null)!,
-            ("Roles","RoleName", "varchar(20)", null)!,
+            ("Roles", "Id", "int(32)", null)!,
+            ("Roles", "RoleName", "varchar(20)", null)!,
 
             //Tickets
-            ("Tickets","Id", "int(32)", null)!,
-            ("Tickets","Title", "varchar(32)", null)!,
-            ("Tickets","Description", "varchar(255)", null)!,
-            ("Tickets","DateTime", "datetime", null)!,
+            ("Tickets", "Id", "int(32)", null)!,
+            ("Tickets", "Title", "varchar(32)", null)!,
+            ("Tickets", "Description", "varchar(255)", null)!,
+            ("Tickets", "DateTime", "datetime", null)!,
 
             //Tickets_Type
-            ("Tickets_Type","Id", "int(32)", null)!,
+            ("Tickets_Type", "Id", "int(32)", null)!,
 
             //Tickets_Comments
-            ("Tickets_Comments","Id", "int(32)", null)!,
+            ("Tickets_Comments", "Id", "int(32)", null)!,
 
             //Tickets_Status
-            ("Tickets_Status","Id", "int(32)", null)!,
+            ("Tickets_Status", "Id", "int(32)", null)!,
 
             //references here!
-            ("Users","Id_role", "Id", "Roles"),
-            ("Tickets","Id_user_Created", "Id", "Users"),
-            ("Tickets","Id_tickets_status", "Id", "Tickets_Status"),
-            ("Tickets","Id_tickets_type", "Id", "Tickets_Type"),
-            ("Tickets","Id_tickets_comments", "Id", "Tickets_Comments"),
+            ("Users", "Id_role", "Id", "Roles"),
+            ("Tickets", "Id_user_Created", "Id", "Users"),
+            ("Tickets", "Id_tickets_status", "Id", "Tickets_Status"),
+            ("Tickets", "Id_tickets_type", "Id", "Tickets_Type"),
+            ("Tickets", "Id_tickets_comments", "Id", "Tickets_Comments"),
         };
 
         private readonly List<(string, string, string, string)> _columnsExist;
@@ -69,7 +63,7 @@ namespace IT_Service_Help_Desk.Database
             _connection.Open();
             foreach (var table in tables)
             {
-               
+
                 var query = $"SELECT * FROM information_schema.tables WHERE table_schema = 'ITHD' AND table_name = '{table}' LIMIT 1;";
                 var cmd = new MySqlCommand(query, _connection);
                 var reader = cmd.ExecuteReader();
@@ -103,7 +97,7 @@ namespace IT_Service_Help_Desk.Database
                 var cmd = new MySqlCommand(query, _connection);
                 var reader = cmd.ExecuteReader();
 
-                while(reader.Read())
+                while (reader.Read())
                 {
                     var column = reader.GetString("Field");
                     var tuple = Columns.FirstOrDefault(x =>
@@ -144,6 +138,6 @@ namespace IT_Service_Help_Desk.Database
             var reader = cmd.ExecuteReader();
             reader.Close();
         }
-            
+
     }
 }
