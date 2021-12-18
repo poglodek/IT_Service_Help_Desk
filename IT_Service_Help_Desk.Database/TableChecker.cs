@@ -19,7 +19,7 @@ namespace IT_Service_Help_Desk.Database
 
 
         //TableName, ColumnName, Column definition OR FOREIGN KEY Column Name, FOREIGN KEY Table Name OR NULL if column dont have  FOREIGN KEY
-        private List<(string, string, string, string)> Columns = new List<(string, string, string, string)>()
+        private List<(string, string, string, string)> Columns = new()
         {
 
             //Create first column without references 
@@ -57,11 +57,11 @@ namespace IT_Service_Help_Desk.Database
             ("Tickets","Id_tickets_comments", "Id", "Tickets_Comments"),
         };
 
-        private List<(string, string, string, string)> ColumnsExist;
+        private readonly List<(string, string, string, string)> _columnsExist;
         public TableChecker(DatabaseConnector database)
         {
             _connection = database.GetConnection();
-            ColumnsExist = new List<(string, string, string, string)>(Columns);
+            _columnsExist = new List<(string, string, string, string)>(Columns);
         }
 
         public bool IsTable()
@@ -128,9 +128,9 @@ namespace IT_Service_Help_Desk.Database
                     query += $"{column.Item1} ADD {column.Item2} {column.Item3};";
                 else
                 {
-                    var jakomobyc = ColumnsExist.FirstOrDefault(x => x.Item1 == column.Item4 && x.Item2 == column.Item3);
-                    var kolumna = $"ALTER TABLE {column.Item1} ADD {column.Item2} {jakomobyc.Item3} UNSIGNED NOT NULL;";
-                    ExecuteSqlCommand(kolumna);
+                    var primaryKeyField = _columnsExist.FirstOrDefault(x => x.Item1 == column.Item4 && x.Item2 == column.Item3);
+                    var columnType = $"ALTER TABLE {column.Item1} ADD {column.Item2} {primaryKeyField.Item3} UNSIGNED NOT NULL;";
+                    ExecuteSqlCommand(columnType);
                     query += $"{column.Item1} ADD CONSTRAINT {column.Item2}_fk FOREIGN KEY ({column.Item2})  REFERENCES {column.Item4}({column.Item3});";
                 }
                 ExecuteSqlCommand(query);
