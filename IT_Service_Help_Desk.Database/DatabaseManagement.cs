@@ -33,21 +33,29 @@ public class DatabaseManagement
         }
        
     }
-    public List<T> GetResultsFromQuery<T>(string query)  
+    public IEnumerable<T>? GetResultsFromQuery<T>(string query)  
     {
         try
         {
             _mySqlConnection.Open();
             var command = new MySqlCommand(query, _mySqlConnection);
             var reader = command.ExecuteReader();
-            var list = new List<T>();
+            string sqlText = @"[";
             while (reader.Read())
             {
-               // list.Add();
+                sqlText += "{";
+                for (int i = 0; i < reader.FieldCount; i++)
+                {
+                    sqlText += $"\"{reader.GetName(i)}\": \"{reader[i]}\",";
+                }
+                sqlText += "},";
             }
+            var json = sqlText.Substring(0, sqlText.Length - 3);
+            json += "}]";
             reader.Close();
             _mySqlConnection.Close();
-            return list;
+
+            return JsonConvert.DeserializeObject<IEnumerable<T>>(json);
         }
         catch 
         {
