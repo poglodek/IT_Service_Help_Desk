@@ -64,8 +64,12 @@ public class DatabaseManagement
         }
        
     }
-    public T GetResultFromQuery<T>(string query) where T : class
+    public T GetResultFromQuery<T>(string selectCommand) where T : class
     {
+        string query = selectCommand;
+        if(!selectCommand.ToUpper().Contains("LIMIT 1"))
+            query = selectCommand.Replace(";", " LIMIT 1;");
+
         try
         {
             _mySqlConnection.Open();
@@ -87,7 +91,7 @@ public class DatabaseManagement
         }
         catch 
         {
-            _logger.LogError($"Error in database query: {query}");
+            _logger.LogError($"Error in database query: {selectCommand}");
             return null;
         }
        

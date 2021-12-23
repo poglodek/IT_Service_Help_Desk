@@ -19,6 +19,14 @@ public class DatabaseManagement_Test
 
     }
     [Fact]
+    public void GetResultFromQueryWithoutLimit_CorrectQuery_ReturnObject()
+    {
+        var management = new DatabaseManagement(new DatabaseConnector(), new Logger());
+        var role = management.GetResultFromQuery<Role>($"SELECT * FROM roles;");
+        Assert.NotNull(role);
+
+    }
+    [Fact]
     public void GetResultsFromQuery_CorrectQuery_ReturnListOfObject()
     {
         var management = new DatabaseManagement(new DatabaseConnector(), new Logger());
