@@ -135,5 +135,58 @@ public class DatabaseManagement
             return false;
         }
     }
+    public bool DeleteObject<T>(string tableName, T t) where T : EntityBase
+    {
+        try
+        {
+            _mySqlConnection.Open();
+            var properties = t.GetType().GetProperties();
+            string where = "";
+            foreach (var property in properties)
+            {
+                string propertyName = property.Name;
+                var propertyValue = t.GetType().GetProperty(propertyName)?.GetValue(t);
+                if (propertyValue is null || propertyName == "Id" && propertyValue.ToString() == "0") 
+                    continue;
+                where += $"{propertyName} = '{propertyValue}' AND ";
+            }
+            if (where.Length < 2)
+                throw new Exception("No properties to delete");
+            string query = $"DELETE FROM {tableName} WHERE {where.Substring(0, where.Length - 4)} LIMIT 1;";
+            var cmd = new MySqlCommand(query, _mySqlConnection);
+            var reader = cmd.ExecuteReader();
+            reader.Close();
+            _mySqlConnection.Close();
+            return true;
+        }
+        catch
+        {
+            _mySqlConnection.Close();
+            _logger.LogError($"Error in database query: {tableName}");
+            return false;
+        }
+    }
+    public bool DeleteObjectById(string tableName, int id)
+    {
+        try
+        {
+            _mySqlConnection.Open();
+            string query = $"DELETE FROM {tableName} WHERE Id = {id} LIMIT 1;";
+            var cmd = new MySqlCommand(query, _mySqlConnection);
+            var reader = cmd.ExecuteReader();
+            reader.Close();
+            _mySqlConnection.Close();
+            return true;
+        }
+        catch
+        {
+            _mySqlConnection.Close();
+            _logger.LogError($"Error in database query: {tableName}");
+            return false;
+        }
+    }
+    
+    //TODO - add update
+   
     
 }

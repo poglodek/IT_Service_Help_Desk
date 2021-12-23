@@ -70,5 +70,48 @@ public class DatabaseManagement_Test
         Assert.False(result);
 
     }
+
+    [Fact]
+    public void DeleteObject_CorrectTableAndCorrectObj_ReturnTrue()
+    {
+        var management = new DatabaseManagement(new DatabaseConnector(), new Logger());
+        var role = new Role(){RoleName = "Test Roles"};
+        var result = management.DeleteObject<Role>("roles",role);
+        Assert.True(result);
+    }
+    [Fact]
+    public void DeleteObject_InCorrectTableAndCorrectObj_ReturnFalse()
+    {
+        var management = new DatabaseManagement(new DatabaseConnector(), new Logger());
+        var role = new Role(){RoleName = "Test Roles"};
+        var result = management.DeleteObject<Role>("ThisTableDoesntExist",role);
+        Assert.False(result);
+    }
+    [Fact]
+    public void DeleteObject_InCorrectTableAndInCorrectObj_ReturnFalse()
+    {
+        var management = new DatabaseManagement(new DatabaseConnector(), new Logger());
+        var role = new Role(){RoleName = "Test Roles"};
+        var result = management.DeleteObject<Role>("ThisTableDoesntExist",role);
+        Assert.False(result);
+    }
+    [Fact]
+    public void DeleteObject_CorrectTableAndInCorrectObj_ReturnFalse()
+    {
+        var management = new DatabaseManagement(new DatabaseConnector(), new Logger());
+        var role = new Role(){RoleName = "Test 12Roles"};
+        var result = management.DeleteObject<Role>("Roles",role);
+        Assert.True(result);
+    }
+
+    [Fact]
+    public void DeleteObjectById_Correct_ReturnFalse()
+    {
+        var role = new Role(){RoleName = "Test Roles", Id = 0};
+        var management = new DatabaseManagement(new DatabaseConnector(), new Logger());
+        management.InsertObject<Role>("roles",role);
+        var result = management.DeleteObjectById("Roles",0);
+        Assert.True(result);
+    }
     
 }
