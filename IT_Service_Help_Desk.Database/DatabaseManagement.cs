@@ -1,4 +1,5 @@
-﻿using IT_Service_Help_Desk.Services.IServices;
+﻿using IT_Service_Help_Desk.Database.Entity;
+using IT_Service_Help_Desk.Services.IServices;
 using MySql.Data.MySqlClient;
 using Newtonsoft.Json;
 
@@ -95,6 +96,37 @@ public class DatabaseManagement
             return null;
         }
        
+    }
+
+    public bool InsertObject<T>(string tableName, T t) where T : EntityBase
+    {
+        try
+        {
+            _mySqlConnection.Open();
+            var properties = t.GetType().GetProperties();
+            string columns = "(";
+            string values = "(";
+            foreach (var property in properties)
+            {
+                string propertyName = property.Name;
+                var propertyValue = t.GetType().GetProperty(propertyName)?.GetValue(t);
+                if (propertyValue is null || propertyName == "Id")
+                    continue;
+                columns += $"{propertyName},";
+                values += $"'{propertyValue}',";
+            }
+            string query = $"INSERT INTO {tableName} {columns.Substring(0, columns.Length - 1)} ) VALUES {values.Substring(0, values.Length - 1)} );";
+            var cmd = new MySqlCommand(query, _mySqlConnection);
+            var reader = cmd.ExecuteReader();
+            reader.Close();
+            _mySqlConnection.Close();
+            return true;
+        }
+        catch
+        {
+            _logger.LogError($"Error in database query: {tableName}");
+            return false;
+        }
     }
     
 }

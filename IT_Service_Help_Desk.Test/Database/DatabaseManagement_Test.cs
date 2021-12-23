@@ -34,5 +34,14 @@ public class DatabaseManagement_Test
         Assert.NotNull(role);
 
     }
+    [Fact]
+    public void InsertObject_CorrectTableAndCorrectObj_ReturnTrue()
+    {
+        var management = new DatabaseManagement(new DatabaseConnector(), new Logger());
+        var role = new Role(){RoleName = "Test Roles"};
+        var result = management.InsertObject<Role>("roles",role);
+        Assert.True(result);
+
+    }
     
 }

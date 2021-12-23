@@ -1,6 +1,6 @@
 ﻿namespace IT_Service_Help_Desk.Database.Entity
 {
-    public class Ticket
+    public class Ticket : EntityBase
     {
         public string Title { get; set; }
         public string Description { get; set; }
