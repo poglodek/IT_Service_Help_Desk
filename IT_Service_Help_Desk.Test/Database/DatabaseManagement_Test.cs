@@ -43,5 +43,32 @@ public class DatabaseManagement_Test
         Assert.True(result);
 
     }
+    [Fact]
+    public void InsertObject_InCorrectTableAndCorrectObj_ReturnFalse()
+    {
+        var management = new DatabaseManagement(new DatabaseConnector(), new Logger());
+        var role = new Role(){RoleName = "Test Roles"};
+        var result = management.InsertObject<Role>("ThisTableDoesntExist",role);
+        Assert.False(result);
+
+    }
+    [Fact]
+    public void InsertObject_InCorrectTableAndInCorrectObj_ReturnFalse()
+    {
+        var management = new DatabaseManagement(new DatabaseConnector(), new Logger());
+        var role = new Role();
+        var result = management.InsertObject<Role>("ThisTableDoesntExist",role);
+        Assert.False(result);
+
+    }
+    [Fact]
+    public void InsertObject_CorrectTableAndInCorrectObj_ReturnFalse()
+    {
+        var management = new DatabaseManagement(new DatabaseConnector(), new Logger());
+        var role = new Role();
+        var result = management.InsertObject<Role>("roles",role);
+        Assert.False(result);
+
+    }
     
 }

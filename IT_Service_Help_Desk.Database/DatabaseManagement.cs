@@ -29,6 +29,7 @@ public class DatabaseManagement
         }
         catch 
         {
+            _mySqlConnection.Close();
             _logger.LogError($"Error in database query: {query}");
             return false;
         }
@@ -60,6 +61,7 @@ public class DatabaseManagement
         }
         catch 
         {
+            _mySqlConnection.Close();
             _logger.LogError($"Error in database query: {query}");
             return null;
         }
@@ -92,6 +94,7 @@ public class DatabaseManagement
         }
         catch 
         {
+            _mySqlConnection.Close();
             _logger.LogError($"Error in database query: {selectCommand}");
             return null;
         }
@@ -115,6 +118,9 @@ public class DatabaseManagement
                 columns += $"{propertyName},";
                 values += $"'{propertyValue}',";
             }
+
+            if (columns.Length < 2)
+                throw new Exception("No properties to insert");
             string query = $"INSERT INTO {tableName} {columns.Substring(0, columns.Length - 1)} ) VALUES {values.Substring(0, values.Length - 1)} );";
             var cmd = new MySqlCommand(query, _mySqlConnection);
             var reader = cmd.ExecuteReader();
@@ -124,6 +130,7 @@ public class DatabaseManagement
         }
         catch
         {
+            _mySqlConnection.Close();
             _logger.LogError($"Error in database query: {tableName}");
             return false;
         }
