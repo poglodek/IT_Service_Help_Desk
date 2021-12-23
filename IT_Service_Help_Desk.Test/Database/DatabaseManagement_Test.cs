@@ -113,5 +113,30 @@ public class DatabaseManagement_Test
         var result = management.DeleteObjectById("Roles",0);
         Assert.True(result);
     }
+
+    [Fact]
+    public void UpdateObject_Correct_ReturnTrue()
+    {
+        
+        var role = new Role(){RoleName = "Test Roles", Id = 0};
+        var roleUpdate = new Role(){RoleName = "Update", Id = 0};
+        var management = new DatabaseManagement(new DatabaseConnector(), new Logger());
+        management.InsertObject<Role>("roles",role);
+        var result = management.UpdateObject("roles",roleUpdate);
+        Assert.True(result);
+        management.DeleteObjectById("Roles",0);
+    }
+    [Fact]
+    public void UpdateObject_CorrectWithId_ReturnTrue()
+    {
+        
+        var role = new Role(){RoleName = "Test Roles", Id = 0};
+        var roleUpdate = new Role(){RoleName = "Update"};
+        var management = new DatabaseManagement(new DatabaseConnector(), new Logger());
+        management.InsertObject<Role>("roles",role);
+        var result = management.UpdateObject("roles",roleUpdate,14);
+        Assert.True(result);
+        //management.DeleteObjectById("Roles",0);
+    }
     
 }

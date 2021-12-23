@@ -185,8 +185,43 @@ public class DatabaseManagement
             return false;
         }
     }
-    
+
+    public T GetResultById<T>(string table, string id) where T : EntityBase
+    {
+        return GetResultFromQuery<T>("Select * from " + table + " where Id = " + id);
+    }
     //TODO - add update
+    public bool UpdateObject<T>(string tableName, T obj, int id = -1) where T : EntityBase
+    {
+        try
+        {
+            _mySqlConnection.Open();
+            var properties = obj.GetType().GetProperties();
+            string update = string.Empty;
+            
+            foreach (var property in properties)
+            {
+                string propertyName = property.Name;
+                var propertyValue = obj.GetType().GetProperty(propertyName)?.GetValue(obj);
+                if (propertyValue is null || propertyName == "Id")
+                    continue;
+                update += $"{propertyName} = '{propertyValue}', ";
+            }
+            var entityId = id == -1 ?  obj.Id : id;
+            string query = $"UPDATE {tableName} SET {update.Substring(0, update.Length - 2)} WHERE Id = {entityId};";
+            var cmd = new MySqlCommand(query, _mySqlConnection);
+            var reader = cmd.ExecuteReader();
+            reader.Close();
+            _mySqlConnection.Close();
+            return true;
+        }
+        catch
+        {
+            _mySqlConnection.Close();
+            _logger.LogError($"Error in database query: {tableName}");
+            return false;
+        }
+    }
    
     
 }
