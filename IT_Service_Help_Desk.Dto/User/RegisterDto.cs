@@ -1,6 +1,6 @@
 ﻿namespace IT_Service_Help_Desk.Dto.User;
 
-public class RegisterDto
+public class RegisterDto: BaseDto
 {
     public string FirstName { get; set; }
     public string LastName { get; set; }
