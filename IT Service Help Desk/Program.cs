@@ -46,6 +46,7 @@ var scope = app.Services.CreateScope();
 if (!scope.ServiceProvider.GetService<DatabaseConnector>().CanConnectToDataBase())
     app.StopAsync();
 scope.ServiceProvider.GetService<TableChecker>().IsTable();
+scope.ServiceProvider.GetService<ILogger>().LogInfo("Test");
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
 {

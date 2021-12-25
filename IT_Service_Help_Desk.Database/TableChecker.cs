@@ -21,7 +21,7 @@ namespace IT_Service_Help_Desk.Database
             ("Users", "Id", "int(32)", null)!,
             ("Users", "FirstName", "varchar(20)", null)!,
             ("Users", "LastName", "varchar(20)", null)!,
-            ("Users", "Email", "varchar(32)", null)!,
+            ("Users", "Email", "varchar(32) UNIQUE", null)!,
             ("Users", "Password", "varchar(513)", null)!,
             ("Users", "IsEnabled", "bit(1)", null)!,
 
