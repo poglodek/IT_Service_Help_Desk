@@ -16,6 +16,7 @@ public class ServiceCollectionHelper
 {
     public static void AddServices(IServiceCollection serviceCollection)
     {
+        serviceCollection.AddTransient<ErrorHandlingMiddleware>();
         serviceCollection.AddScoped<IUserServices, UserServices>();
         serviceCollection.AddScoped<IRoleServices, RoleServices>();
         serviceCollection.AddAutoMapper(typeof(HelpDeskMapper).Assembly);

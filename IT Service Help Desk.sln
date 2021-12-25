@@ -17,6 +17,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "IT Service Help Desk.Helper
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "IT_Service_Help_Desk.Validator", "IT_Service_Help_Desk.Validator\IT_Service_Help_Desk.Validator.csproj", "{330BA033-57E5-4358-9505-9D38711C7462}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "IT Service Help Desk.Exception", "IT Service Help Desk.Exception\IT Service Help Desk.Exception.csproj", "{34755073-1F52-4711-BBD6-5DA0DFFD895D}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -51,6 +53,10 @@ Global
 		{330BA033-57E5-4358-9505-9D38711C7462}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{330BA033-57E5-4358-9505-9D38711C7462}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{330BA033-57E5-4358-9505-9D38711C7462}.Release|Any CPU.Build.0 = Release|Any CPU
+		{34755073-1F52-4711-BBD6-5DA0DFFD895D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{34755073-1F52-4711-BBD6-5DA0DFFD895D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{34755073-1F52-4711-BBD6-5DA0DFFD895D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{34755073-1F52-4711-BBD6-5DA0DFFD895D}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

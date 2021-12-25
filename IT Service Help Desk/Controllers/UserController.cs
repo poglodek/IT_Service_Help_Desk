@@ -8,16 +8,19 @@ namespace IT_Service_Help_Desk.Controllers
     [Route("[controller]")]
     public class UserController : ControllerBase
     {
-      //  private readonly IUserServices _services;
+        
+        private readonly IUserServices _services;
 
-       // public UserController(IUserServices services)
-      //  {
-           // _services = services;
-      //  }
+        public UserController(IUserServices services)
+        {
+            _services = services;
+        }
+        
 
         [HttpPost("register")]
         public IActionResult RegisterUser([FromBody] RegisterDto dto)
         {
+            _services.RegisterUser(dto);
             return Ok("oki");
         }
     }

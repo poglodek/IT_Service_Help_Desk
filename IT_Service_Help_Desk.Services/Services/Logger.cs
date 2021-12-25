@@ -13,7 +13,6 @@ public class Logger : ILogger
     public Logger()
     {
         LogFilePath = AppPath + @"Logs\";
-        Console.WriteLine(LogFilePath);
     }
     public void LogInfo(string message)
     {

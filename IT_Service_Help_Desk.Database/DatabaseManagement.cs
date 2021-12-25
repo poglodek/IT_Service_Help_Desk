@@ -104,7 +104,7 @@ public class DatabaseManagement
             }
 
             if (columns.Length < 2)
-                throw new Exception("No properties to insert");
+                throw new System.Exception("No properties to insert");
             string query = $"INSERT INTO {tableName} {columns.Substring(0, columns.Length - 1)} ) VALUES {values.Substring(0, values.Length - 1)} );";
             var cmd = new MySqlCommand(query, _mySqlConnection);
             var reader = cmd.ExecuteReader();
@@ -135,7 +135,7 @@ public class DatabaseManagement
                 where += $"{propertyName} = '{propertyValue}' AND ";
             }
             if (where.Length < 2)
-                throw new Exception("No properties to delete");
+                throw new System.Exception("No properties to delete");
             string query = $"DELETE FROM {tableName} WHERE {where.Substring(0, where.Length - 4)} LIMIT 1;";
             var cmd = new MySqlCommand(query, _mySqlConnection);
             var reader = cmd.ExecuteReader();
