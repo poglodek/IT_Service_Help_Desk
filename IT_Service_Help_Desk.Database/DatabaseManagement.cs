@@ -42,18 +42,7 @@ public class DatabaseManagement
             _mySqlConnection.Open();
             var command = new MySqlCommand(query, _mySqlConnection);
             var reader = command.ExecuteReader();
-            string sqlText = @"[";
-            while (reader.Read())
-            {
-                sqlText += "{";
-                for (int i = 0; i < reader.FieldCount; i++)
-                {
-                    sqlText += $"\"{reader.GetName(i)}\": \"{reader[i]}\",";
-                }
-                sqlText += "},";
-            }
-            var json = sqlText.Substring(0, sqlText.Length - 3);
-            json += "}]";
+            var json = GetJsonFromReader(reader);
             reader.Close();
             _mySqlConnection.Close();
 
@@ -78,16 +67,7 @@ public class DatabaseManagement
             _mySqlConnection.Open();
             var command = new MySqlCommand(query, _mySqlConnection);
             var reader = command.ExecuteReader();
-            string sqlText = @"{";
-            while (reader.Read())
-            {
-                for (int i = 0; i < reader.FieldCount; i++)
-                {
-                   sqlText += $"\"{reader.GetName(i)}\": \"{reader[i]}\",";
-                }
-            }
-            var json = sqlText.Substring(0, sqlText.Length - 1);
-            json += "}";
+            var json = GetJsonFromReader(reader,false);
             reader.Close();
             _mySqlConnection.Close();
             return JsonConvert.DeserializeObject<T>(json);
@@ -101,6 +81,26 @@ public class DatabaseManagement
        
     }
 
+    public string GetJsonFromReader(MySqlDataReader reader, bool hasManyRows = true)
+    {
+        string sqlText = @"{";
+        if(hasManyRows)
+            sqlText = @"[";
+        while (reader.Read())
+        {
+            sqlText += hasManyRows  ?  "{": "";
+           for (int i = 0; i < reader.FieldCount; i++)
+            {
+                sqlText += $"\"{reader.GetName(i)}\": \"{reader[i]}\",";
+            }
+            sqlText += hasManyRows ? "},"  : "";
+        }
+        int lastIndex = hasManyRows ? sqlText.Length - 3 : sqlText.Length - 1;
+        var a = sqlText.Substring(0, lastIndex) + (hasManyRows ? "}]":@"}");
+        return a;
+    }
+    
+    
     public bool InsertObject<T>(string tableName, T t) where T : EntityBase
     {
         try
