@@ -1,3 +1,4 @@
+using IT_Service_Help_Desk;
 using IT_Service_Help_Desk.Database;
 using IT_Service_Help_Desk.Helpers;
 using IT_Service_Help_Desk.Services.Services;
@@ -12,12 +13,7 @@ builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
-builder.Services.AddScoped<DatabaseConnector>();
-builder.Services.AddScoped<TableChecker>();
-builder.Services.AddScoped<TupleHelper>();
-builder.Services.AddScoped<DatabaseManagement>();
-builder.Services.AddTransient<ILogger,Logger>();
-
+ServiceCollectionHelper.AddServices(builder.Services);
 var app = builder.Build();
 var scope = app.Services.CreateScope();
 if (!scope.ServiceProvider.GetService<DatabaseConnector>().CanConnectToDataBase())

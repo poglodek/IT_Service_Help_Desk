@@ -100,7 +100,6 @@ public class DatabaseManagement
         return a;
     }
     
-    
     public bool InsertObject<T>(string tableName, T t) where T : EntityBase
     {
         try
@@ -185,12 +184,6 @@ public class DatabaseManagement
             return false;
         }
     }
-
-    public T GetResultById<T>(string table, string id) where T : EntityBase
-    {
-        return GetResultFromQuery<T>("Select * from " + table + " where Id = " + id);
-    }
-    //TODO - add update
     public bool UpdateObject<T>(string tableName, T obj, int id = -1) where T : EntityBase
     {
         try
