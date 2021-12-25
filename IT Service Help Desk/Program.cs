@@ -1,7 +1,10 @@
+using System.Text;
 using IT_Service_Help_Desk;
 using IT_Service_Help_Desk.Database;
 using IT_Service_Help_Desk.Helpers;
+using IT_Service_Help_Desk.Services.Authentication;
 using IT_Service_Help_Desk.Services.Services;
+using Microsoft.IdentityModel.Tokens;
 using ILogger = IT_Service_Help_Desk.Services.IServices.ILogger;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -9,24 +12,42 @@ var builder = WebApplication.CreateBuilder(args);
 // Add services to the container.
 
 builder.Services.AddControllers();
-// Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
+var authSettings = new AuthenticationSettings();
+builder.Configuration.GetSection("Authentication").Bind(authSettings);
+builder.Services.AddAuthentication(options =>
+    {
+        options.DefaultAuthenticateScheme = "Bearer";
+        options.DefaultScheme = "Bearer";
+        options.DefaultChallengeScheme = "Bearer";
+    }).AddJwtBearer(config =>
+    {
+        config.SaveToken = true;
+        config.RequireHttpsMetadata = false;
+        config.TokenValidationParameters = new TokenValidationParameters
+        {
+            ValidIssuer = authSettings.JwtIssuer,
+            ValidAudience = authSettings.JwtIssuer,
+            IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(authSettings.JwtKey)
+            )
+        };
+    });
+builder.Services.AddSingleton(authSettings);
 ServiceCollectionHelper.AddServices(builder.Services);
 var app = builder.Build();
 var scope = app.Services.CreateScope();
 if (!scope.ServiceProvider.GetService<DatabaseConnector>().CanConnectToDataBase())
     app.StopAsync();
 scope.ServiceProvider.GetService<TableChecker>().IsTable();
-scope.ServiceProvider.GetService<ILogger>().LogInfo("Test info");
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
 {
     app.UseSwagger();
     app.UseSwaggerUI();
 }
-
+app.UseAuthentication();
 app.UseHttpsRedirection();
 
 app.UseAuthorization();
