@@ -1,4 +1,5 @@
 ﻿using IT_Service_Help_Desk.Database;
+using IT_Service_Help_Desk.Dto;
 using IT_Service_Help_Desk.Helpers;
 using IT_Service_Help_Desk.Services.Services;
 using ILogger = IT_Service_Help_Desk.Services.IServices.ILogger;
@@ -8,7 +9,7 @@ public class ServiceCollectionHelper
 {
     public static void AddServices(IServiceCollection serviceCollection)
     {
-
+        serviceCollection.AddAutoMapper(typeof(HelpDeskMapper).Assembly);
         serviceCollection.AddScoped<DatabaseConnector>();
         serviceCollection.AddScoped<TableChecker>();
         serviceCollection.AddScoped<TupleHelper>();

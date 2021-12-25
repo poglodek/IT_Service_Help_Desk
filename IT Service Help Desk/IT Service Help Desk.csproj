@@ -10,6 +10,7 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="AutoMapper.Extensions.Microsoft.DependencyInjection" Version="8.1.1" />
     <PackageReference Include="Microsoft.VisualStudio.Azure.Containers.Tools.Targets" Version="1.14.0" />
     <PackageReference Include="Newtonsoft.Json" Version="13.0.1" />
     <PackageReference Include="Swashbuckle.AspNetCore" Version="6.2.3" />
@@ -17,6 +18,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\IT_Service_Help_Desk.Database\IT_Service_Help_Desk.Database.csproj" />
+    <ProjectReference Include="..\IT_Service_Help_Desk.Dto\IT_Service_Help_Desk.Dto.csproj" />
     <ProjectReference Include="..\IT_Service_Help_Desk.Services\IT_Service_Help_Desk.Services.csproj" />
   </ItemGroup>
 
