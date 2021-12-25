@@ -1,4 +1,5 @@
 ﻿using IT_Service_Help_Desk.Database.Entity;
+using IT_Service_Help_Desk.Helpers;
 using IT_Service_Help_Desk.Services.IServices;
 using MySql.Data.MySqlClient;
 using Newtonsoft.Json;
@@ -8,11 +9,15 @@ namespace IT_Service_Help_Desk.Database;
 public class DatabaseManagement
 {
     private readonly ILogger _logger;
+    private readonly DatabaseHelper _baseHelper;
     private readonly MySqlConnection _mySqlConnection;
 
-    public DatabaseManagement(DatabaseConnector databaseConnector, ILogger logger)
+    public DatabaseManagement(DatabaseConnector databaseConnector, 
+        ILogger logger,
+        DatabaseHelper baseHelper)
     {
         _logger = logger;
+        _baseHelper = baseHelper;
         _mySqlConnection = databaseConnector.GetConnection();
     }
 
@@ -42,7 +47,7 @@ public class DatabaseManagement
             _mySqlConnection.Open();
             var command = new MySqlCommand(query, _mySqlConnection);
             var reader = command.ExecuteReader();
-            var json = GetJsonFromReader(reader);
+            var json = _baseHelper.GetJsonFromReader(reader);
             reader.Close();
             _mySqlConnection.Close();
 
@@ -67,7 +72,7 @@ public class DatabaseManagement
             _mySqlConnection.Open();
             var command = new MySqlCommand(query, _mySqlConnection);
             var reader = command.ExecuteReader();
-            var json = GetJsonFromReader(reader,false);
+            var json = _baseHelper.GetJsonFromReader(reader,false);
             reader.Close();
             _mySqlConnection.Close();
             return JsonConvert.DeserializeObject<T>(json);
@@ -80,26 +85,6 @@ public class DatabaseManagement
         }
        
     }
-
-    public string GetJsonFromReader(MySqlDataReader reader, bool hasManyRows = true)
-    {
-        string sqlText = @"{";
-        if(hasManyRows)
-            sqlText = @"[";
-        while (reader.Read())
-        {
-            sqlText += hasManyRows  ?  "{": "";
-           for (int i = 0; i < reader.FieldCount; i++)
-            {
-                sqlText += $"\"{reader.GetName(i)}\": \"{reader[i]}\",";
-            }
-            sqlText += hasManyRows ? "},"  : "";
-        }
-        int lastIndex = hasManyRows ? sqlText.Length - 3 : sqlText.Length - 1;
-        var a = sqlText.Substring(0, lastIndex) + (hasManyRows ? "}]":@"}");
-        return a;
-    }
-    
     public bool InsertObject<T>(string tableName, T t) where T : EntityBase
     {
         try

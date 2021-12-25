@@ -1,9 +1,11 @@
 using System.Text;
 using IT_Service_Help_Desk;
 using IT_Service_Help_Desk.Database;
+using IT_Service_Help_Desk.Database.Entity;
 using IT_Service_Help_Desk.Helpers;
 using IT_Service_Help_Desk.Services.Authentication;
 using IT_Service_Help_Desk.Services.Services;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.IdentityModel.Tokens;
 using ILogger = IT_Service_Help_Desk.Services.IServices.ILogger;
 
@@ -15,7 +17,9 @@ builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
+builder.Services.AddScoped<IPasswordHasher<User>, PasswordHasher<User>>();
 var authSettings = new AuthenticationSettings();
+
 builder.Configuration.GetSection("Authentication").Bind(authSettings);
 builder.Services.AddAuthentication(options =>
     {
@@ -34,6 +38,7 @@ builder.Services.AddAuthentication(options =>
             )
         };
     });
+
 builder.Services.AddSingleton(authSettings);
 ServiceCollectionHelper.AddServices(builder.Services);
 var app = builder.Build();

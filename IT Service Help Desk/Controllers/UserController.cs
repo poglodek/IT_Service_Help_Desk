@@ -1,4 +1,6 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using IT_Service_Help_Desk.Dto.User;
+using IT_Service_Help_Desk.Services.IServices;
+using Microsoft.AspNetCore.Mvc;
 
 namespace IT_Service_Help_Desk.Controllers
 {
@@ -6,6 +8,17 @@ namespace IT_Service_Help_Desk.Controllers
     [Route("[controller]")]
     public class UserController : ControllerBase
     {
+      //  private readonly IUserServices _services;
 
+       // public UserController(IUserServices services)
+      //  {
+           // _services = services;
+      //  }
+
+        [HttpPost("register")]
+        public IActionResult RegisterUser([FromBody] RegisterDto dto)
+        {
+            return Ok("oki");
+        }
     }
 }

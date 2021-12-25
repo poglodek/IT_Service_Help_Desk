@@ -1,7 +1,10 @@
 ﻿using IT_Service_Help_Desk.Database;
+using IT_Service_Help_Desk.Database.Entity;
 using IT_Service_Help_Desk.Dto;
 using IT_Service_Help_Desk.Helpers;
+using IT_Service_Help_Desk.Services.IServices;
 using IT_Service_Help_Desk.Services.Services;
+using Microsoft.AspNetCore.Identity;
 using ILogger = IT_Service_Help_Desk.Services.IServices.ILogger;
 namespace IT_Service_Help_Desk;
 
@@ -9,10 +12,13 @@ public class ServiceCollectionHelper
 {
     public static void AddServices(IServiceCollection serviceCollection)
     {
+        serviceCollection.AddScoped<IUserServices, UserServices>();
+        serviceCollection.AddScoped<IRoleServices, RoleServices>();
         serviceCollection.AddAutoMapper(typeof(HelpDeskMapper).Assembly);
         serviceCollection.AddScoped<DatabaseConnector>();
         serviceCollection.AddScoped<TableChecker>();
         serviceCollection.AddScoped<TupleHelper>();
+        serviceCollection.AddScoped<DatabaseHelper>();
         serviceCollection.AddScoped<DatabaseManagement>();
         serviceCollection.AddTransient<ILogger,Logger>();
 
