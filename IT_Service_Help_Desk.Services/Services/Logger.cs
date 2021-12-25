@@ -54,6 +54,7 @@ public class Logger : ILogger
             sw.WriteLine(message);
         }catch
         {
+            Console.WriteLine(message);
             Console.WriteLine("Error writing to file!");
         }
        

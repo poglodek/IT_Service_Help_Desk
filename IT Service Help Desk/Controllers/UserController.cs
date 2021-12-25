@@ -20,8 +20,7 @@ namespace IT_Service_Help_Desk.Controllers
         [HttpPost("register")]
         public IActionResult RegisterUser([FromBody] RegisterDto dto)
         {
-            _services.RegisterUser(dto);
-            return Ok("oki");
+            return _services.RegisterUser(dto) ? Created(String.Empty, null) : Conflict();
         }
     }
 }

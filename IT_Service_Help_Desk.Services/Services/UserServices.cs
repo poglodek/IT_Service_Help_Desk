@@ -14,6 +14,8 @@ namespace IT_Service_Help_Desk.Services.Services;
 public class UserServices : IUserServices
 {
     private readonly DatabaseHelper _helper;
+    private readonly DatabaseManagement _databaseManagement;
+    private readonly IRoleServices _roleServices;
     private readonly IValid<RegisterDto> _registerValidator;
     private readonly MySqlConnection _connection;
     private readonly IPasswordHasher<User> _passwordHasher;
@@ -21,11 +23,15 @@ public class UserServices : IUserServices
 
     public UserServices(DatabaseHelper helper,
         DatabaseConnector connector,
+        DatabaseManagement databaseManagement,
+        IRoleServices roleServices,
         IValid<RegisterDto> registerValidator,
         IPasswordHasher<User> passwordHasher,
         IMapper mapper)
     {
         _helper = helper;
+        _databaseManagement = databaseManagement;
+        _roleServices = roleServices;
         _registerValidator = registerValidator;
         _connection = connector.GetConnection();
         _passwordHasher = passwordHasher;
@@ -37,7 +43,9 @@ public class UserServices : IUserServices
         var isValid = _registerValidator.IsValid(dto);
         if(!isValid.Item1)
             throw new NotValidException(isValid.Item2);
-        //TODO: All 
-        return true;
+        var user = _mapper.Map<User>(dto);
+        user.Password = _passwordHasher.HashPassword(user, dto.Password);
+        user.Id_role = _roleServices.GetFirstRole().Id;
+        return _databaseManagement.InsertObject<User>("users", user);
     }
 }

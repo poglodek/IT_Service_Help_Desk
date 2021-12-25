@@ -87,6 +87,7 @@ public class DatabaseManagement
     }
     public bool InsertObject<T>(string tableName, T t) where T : EntityBase
     {
+        string query = String.Empty;
         try
         {
             _mySqlConnection.Open();
@@ -105,7 +106,7 @@ public class DatabaseManagement
 
             if (columns.Length < 2)
                 throw new System.Exception("No properties to insert");
-            string query = $"INSERT INTO {tableName} {columns.Substring(0, columns.Length - 1)} ) VALUES {values.Substring(0, values.Length - 1)} );";
+            query = $"INSERT INTO {tableName} {columns.Substring(0, columns.Length - 1)} ) VALUES {values.Substring(0, values.Length - 1)} );";
             var cmd = new MySqlCommand(query, _mySqlConnection);
             var reader = cmd.ExecuteReader();
             reader.Close();
@@ -115,7 +116,7 @@ public class DatabaseManagement
         catch
         {
             _mySqlConnection.Close();
-            _logger.LogError($"Error in database query: {tableName}");
+            _logger.LogError($"Error in database table:{tableName}, query: {query}");
             return false;
         }
     }
