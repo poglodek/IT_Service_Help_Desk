@@ -42,4 +42,10 @@ public class RoleServices : IRoleServices
             return null;
         }
     }
+
+    public RoleDto GetRoleById(int id)
+    {
+        var role = _management.GetResultFromQuery<Role>(@$"Select * from roles where id={id};");
+        return _mapper.Map<RoleDto>(role);
+    }
 }
