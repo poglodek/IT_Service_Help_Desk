@@ -18,8 +18,9 @@ public class DatabaseQueryHelper
         {
             command.Connection = _mySqlConnection;
             command.Connection.Open();
-            command.Connection.Close();
             return  command.ExecuteReader();
+            command.Connection.Close();
+            
             
         }
         catch

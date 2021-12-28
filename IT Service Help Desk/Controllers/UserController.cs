@@ -22,5 +22,10 @@ namespace IT_Service_Help_Desk.Controllers
         {
             return _services.RegisterUser(dto) ? Created(String.Empty, null) : Conflict();
         }
+        [HttpPost("login")]
+        public IActionResult LoginUser([FromBody] LoginUserDto dto)
+        {
+            return Ok(_services.Login(dto));
+        }
     }
 }

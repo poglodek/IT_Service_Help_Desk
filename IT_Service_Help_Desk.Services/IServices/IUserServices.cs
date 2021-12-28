@@ -5,4 +5,5 @@ namespace IT_Service_Help_Desk.Services.IServices;
 public interface IUserServices
 {
     bool RegisterUser(RegisterDto dto);
+    string Login(LoginUserDto userDto);
 }

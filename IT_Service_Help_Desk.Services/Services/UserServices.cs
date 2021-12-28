@@ -10,6 +10,7 @@ using IT_Service_Help_Desk.Helpers;
 using IT_Service_Help_Desk.Services.Authentication;
 using IT_Service_Help_Desk.Services.IServices;
 using IT_Service_Help_Desk.Validator;
+using JsonConverters;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.IdentityModel.Tokens;
 using MySql.Data.MySqlClient;
@@ -68,7 +69,8 @@ public class UserServices : IUserServices
         cmd.CommandText = "SELECT * FROM users WHERE email = @email LIMIT 1";
         cmd.Parameters.AddWithValue("@email", userDto.Email);
         var reader = _databaseQueryHelper.SendQuery(cmd);
-        var user = JsonConvert.DeserializeObject<User>(_databaseHelper.GetJsonFromReader(reader));
+        var a = _databaseHelper.GetJsonFromReader(reader, false);
+        var user = JsonConvert.DeserializeObject<User>(a, new BooleanJsonConverter());
         if (user == null || _passwordHasher.VerifyHashedPassword(user, user.Password, userDto.Password) == PasswordVerificationResult.Failed)
             throw new NotFoundException("User not found");
         return GetToken(user);
