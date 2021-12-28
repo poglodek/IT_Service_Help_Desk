@@ -1,4 +1,5 @@
-﻿using IT_Service_Help_Desk.Exception;
+﻿
+using IT_Service_Help_Desk.Exception;
 using MySql.Data.MySqlClient;
 
 namespace IT_Service_Help_Desk.Database;

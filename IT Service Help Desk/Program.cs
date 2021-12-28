@@ -7,7 +7,7 @@ using IT_Service_Help_Desk.Services.Authentication;
 using IT_Service_Help_Desk.Services.Services;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.IdentityModel.Tokens;
-using ILogger = IT_Service_Help_Desk.Services.IServices.ILogger;
+using ILogger = IT_Service_Help_Desk.IO.IServices.ILogger;
 
 var builder = WebApplication.CreateBuilder(args);
 

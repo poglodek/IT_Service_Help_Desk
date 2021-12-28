@@ -2,13 +2,9 @@
 
     <PropertyGroup>
         <TargetFramework>net6.0</TargetFramework>
+        <RootNamespace>IT_Service_Help_Desk.IO</RootNamespace>
         <ImplicitUsings>enable</ImplicitUsings>
         <Nullable>enable</Nullable>
     </PropertyGroup>
-
-    <ItemGroup>
-      <ProjectReference Include="..\IT_Service_Help_Desk.Dto\IT_Service_Help_Desk.Dto.csproj" />
-      
-    </ItemGroup>
 
 </Project>

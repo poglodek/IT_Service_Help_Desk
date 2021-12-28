@@ -1,4 +1,4 @@
-﻿namespace IT_Service_Help_Desk.Services.IServices;
+﻿namespace IT_Service_Help_Desk.IO.IServices;
 
 public interface ILogger
 {

@@ -16,7 +16,11 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\IT Service Help Desk.IO\IT Service Help Desk.IO.csproj" />
     <ProjectReference Include="..\IT_Service_Help_Desk.Database\IT_Service_Help_Desk.Database.csproj" />
+    <ProjectReference Include="..\IT_Service_Help_Desk.Dto\IT_Service_Help_Desk.Dto.csproj" />
+    <ProjectReference Include="..\IT_Service_Help_Desk.Services\IT_Service_Help_Desk.Services.csproj" />
+    <ProjectReference Include="..\IT_Service_Help_Desk.Validator\IT_Service_Help_Desk.Validator.csproj" />
   </ItemGroup>
 
   <ItemGroup>

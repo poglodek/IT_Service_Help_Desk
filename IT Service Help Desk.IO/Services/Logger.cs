@@ -1,8 +1,6 @@
-﻿using System.Net.Mime;
-using System.Reflection;
-using IT_Service_Help_Desk.Services.IServices;
+﻿using IT_Service_Help_Desk.IO.IServices;
 
-namespace IT_Service_Help_Desk.Services.Services;
+namespace IT_Service_Help_Desk.IO.Services;
 
 public class Logger : ILogger
 {

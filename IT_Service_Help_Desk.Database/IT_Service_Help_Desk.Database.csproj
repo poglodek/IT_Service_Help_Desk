@@ -19,8 +19,10 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\IT Service Help Desk.Exception\IT Service Help Desk.Exception.csproj" />
     <ProjectReference Include="..\IT Service Help Desk.Helpers\IT Service Help Desk.Helpers.csproj" />
-    <ProjectReference Include="..\IT_Service_Help_Desk.Services\IT_Service_Help_Desk.Services.csproj" />
+    <ProjectReference Include="..\IT Service Help Desk.IO\IT Service Help Desk.IO.csproj" />
+   
   </ItemGroup>
 
 </Project>

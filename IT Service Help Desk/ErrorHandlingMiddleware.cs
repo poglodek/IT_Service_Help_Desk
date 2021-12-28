@@ -1,5 +1,6 @@
 ﻿using IT_Service_Help_Desk.Exception;
-using ILogger = IT_Service_Help_Desk.Services.IServices.ILogger;
+using IT_Service_Help_Desk.IO.Services;
+using ILogger =  IT_Service_Help_Desk.IO.IServices.ILogger;
 
 namespace IT_Service_Help_Desk;
 
