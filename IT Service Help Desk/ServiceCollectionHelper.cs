@@ -21,6 +21,7 @@ public class ServiceCollectionHelper
         serviceCollection.AddTransient<ErrorHandlingMiddleware>();
         serviceCollection.AddScoped<IUserServices, UserServices>();
         serviceCollection.AddScoped<IRoleServices, RoleServices>();
+        serviceCollection.AddScoped<ITicketServices, TicketServices>();
         serviceCollection.AddAutoMapper(typeof(HelpDeskMapper).Assembly);
         serviceCollection.AddScoped<DatabaseConnector>();
         serviceCollection.AddScoped<TableChecker>();

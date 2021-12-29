@@ -31,7 +31,7 @@ namespace IT_Service_Help_Desk.Database
 
             //Tickets
             ("Tickets", "Id", "int(32)", null)!,
-            ("Tickets", "Title", "varchar(32)", null)!,
+            ("Tickets", "Title", "varchar(32) UNIQUE", null)!,
             ("Tickets", "Description", "varchar(255)", null)!,
             ("Tickets", "DateTime", "datetime", null)!,
 

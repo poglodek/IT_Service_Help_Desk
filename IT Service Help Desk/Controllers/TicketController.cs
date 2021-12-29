@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using IT_Service_Help_Desk.Services.Services;
+using Microsoft.AspNetCore.Mvc;
 
 
 namespace IT_Service_Help_Desk.Controllers
@@ -7,11 +8,18 @@ namespace IT_Service_Help_Desk.Controllers
     [Route("[controller]")]
     public class TicketController : ControllerBase
     {
-        
-        [HttpGet]
-        public IActionResult Index()
+        private readonly ITicketServices _services;
+
+        public TicketController(ITicketServices services)
         {
-            return Ok("okii");
+            _services = services;
+        }   
+        [HttpGet]
+        public IActionResult Index([FromQuery] int page = 0 )
+        {
+            var tickets = _services.GetAllTicketsFromPage(page);
+            return Ok(tickets);
         }
+
     }
 }
