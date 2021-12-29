@@ -133,7 +133,7 @@ public class DatabaseManagement
             {
                 string propertyName = property.Name;
                 var propertyValue = t.GetType().GetProperty(propertyName)?.GetValue(t);
-                if (propertyValue is null || propertyName == "Id" && propertyValue.ToString() == "0")
+                if (propertyValue is null || propertyName.Contains("Id") && propertyValue.ToString() == "0" || propertyName.Contains("Is"))
                     continue;
                 where += $"{propertyName} = '{propertyValue}' AND ";
             }

@@ -8,7 +8,9 @@
 
   <ItemGroup>
     <PackageReference Include="AutoMapper.Extensions.Microsoft.DependencyInjection" Version="8.1.1" />
+    <PackageReference Include="FluentAssertions" Version="6.2.0" />
     <PackageReference Include="Microsoft.AspNetCore.Authorization" Version="6.0.1" />
+    <PackageReference Include="Microsoft.AspNetCore.Mvc.Testing" Version="6.0.1" />
     <PackageReference Include="Microsoft.NET.Test.Sdk" Version="17.0.0" />
     <PackageReference Include="Moq" Version="4.16.1" />
     <PackageReference Include="Newtonsoft.Json" Version="13.0.1" />
@@ -17,6 +19,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\IT Service Help Desk.IO\IT Service Help Desk.IO.csproj" />
+    <ProjectReference Include="..\IT Service Help Desk\IT Service Help Desk.csproj" />
     <ProjectReference Include="..\IT_Service_Help_Desk.Database\IT_Service_Help_Desk.Database.csproj" />
     <ProjectReference Include="..\IT_Service_Help_Desk.Dto\IT_Service_Help_Desk.Dto.csproj" />
     <ProjectReference Include="..\IT_Service_Help_Desk.Services\IT_Service_Help_Desk.Services.csproj" />
