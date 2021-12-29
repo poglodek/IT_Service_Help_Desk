@@ -33,6 +33,5 @@ public class ServiceCollectionHelper
         serviceCollection.AddScoped<IValid<RegisterDto>,RegisterDtoValidator>();
         serviceCollection.AddTransient<ILogger,Logger>();
 
-
     }
 }

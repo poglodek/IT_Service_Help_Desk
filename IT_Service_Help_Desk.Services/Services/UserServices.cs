@@ -21,7 +21,6 @@ namespace IT_Service_Help_Desk.Services.Services;
 
 public class UserServices : IUserServices
 {
-    private readonly DatabaseHelper _helper;
     private readonly DatabaseManagement _databaseManagement;
     private readonly DatabaseQueryHelper _databaseQueryHelper;
     private readonly DatabaseHelper _databaseHelper;
@@ -31,8 +30,7 @@ public class UserServices : IUserServices
     private readonly IPasswordHasher<User> _passwordHasher;
     private readonly IMapper _mapper;
 
-    public UserServices(DatabaseHelper helper,
-        DatabaseManagement databaseManagement,
+    public UserServices(DatabaseManagement databaseManagement,
         DatabaseQueryHelper databaseQueryHelper,
         DatabaseHelper databaseHelper,
         AuthenticationSettings authenticationSettings,
@@ -41,7 +39,6 @@ public class UserServices : IUserServices
         IPasswordHasher<User> passwordHasher,
         IMapper mapper)
     {
-        _helper = helper;
         _databaseManagement = databaseManagement;
         _databaseQueryHelper = databaseQueryHelper;
         _databaseHelper = databaseHelper;
@@ -69,8 +66,8 @@ public class UserServices : IUserServices
         cmd.CommandText = "SELECT * FROM users WHERE email = @email LIMIT 1";
         cmd.Parameters.AddWithValue("@email", userDto.Email);
         var reader = _databaseQueryHelper.SendQuery(cmd);
-        var a = _databaseHelper.GetJsonFromReader(reader, false);
-        var user = JsonConvert.DeserializeObject<User>(a, new BooleanJsonConverter());
+        var str = _databaseHelper.GetJsonFromReader(reader, false);
+        var user = JsonConvert.DeserializeObject<User>(str, new BooleanJsonConverter());
         if (user == null || _passwordHasher.VerifyHashedPassword(user, user.Password, userDto.Password) == PasswordVerificationResult.Failed)
             throw new NotFoundException("User not found");
         return GetToken(user);

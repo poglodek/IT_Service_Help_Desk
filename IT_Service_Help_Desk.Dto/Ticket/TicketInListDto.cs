@@ -2,10 +2,12 @@
 
 public class TicketInListDto
 {
+    public string Id { get; set; }
     public string Title { get; set; }
-    public string Description { get; set; }
-    public string user_Created { get; set; }
-    public string tickets_status { get; set; }
-    public DateTime CreateDate { get; set; }
+    public string FirstName { get; set; }
+    public string LastName { get; set; }
+    public string Status { get; set; }
+    public string TypeName { get; set; }
+    public DateTime DateTime { get; set; }
     
 }
