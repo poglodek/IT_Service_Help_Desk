@@ -23,6 +23,7 @@ public class ServiceCollectionHelper
         serviceCollection.AddScoped<IRoleServices, RoleServices>();
         serviceCollection.AddScoped<ITicketServices, TicketServices>();
         serviceCollection.AddScoped<ITicketStatusServices, TicketStatusServices>();
+        serviceCollection.AddScoped<ITicketTypeServices, TicketTypeServices>();
         serviceCollection.AddAutoMapper(typeof(HelpDeskMapper).Assembly);
         serviceCollection.AddScoped<DatabaseConnector>();
         serviceCollection.AddScoped<TableChecker>();

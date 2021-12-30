@@ -16,5 +16,7 @@ public class HelpDeskMapper : Profile
             .ReverseMap();
         CreateMap<TicketStatusDto,Tickets_Status>()
             .ReverseMap();
+        CreateMap<TicketTypeDto,Tickets_Type>()
+            .ReverseMap();
     }
 }
