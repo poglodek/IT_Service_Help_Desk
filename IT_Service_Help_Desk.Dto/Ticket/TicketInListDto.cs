@@ -1,6 +1,6 @@
 ﻿namespace IT_Service_Help_Desk.Dto.Ticket;
 
-public class TicketInListDto
+public class TicketInListDto : BaseDto
 {
     public string Id { get; set; }
     public string Title { get; set; }

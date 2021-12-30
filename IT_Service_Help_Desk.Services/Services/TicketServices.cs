@@ -34,6 +34,7 @@ public class TicketServices : ITicketServices
         var reader = _queryHelper.SendQuery(cmd);
         var str = _databaseHelper.GetJsonFromReader(reader);
         return JsonConvert.DeserializeObject<List<TicketInListDto>>(str);
-        
+      
+       
     }
 }
