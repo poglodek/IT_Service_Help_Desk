@@ -18,10 +18,11 @@ public class DatabaseQueryHelper
         {
             command.Connection = _mySqlConnection;
             command.Connection.Open();
-            return  command.ExecuteReader();
-            command.Connection.Close();
-            
-            
+            return command.ExecuteReader();
+             
+
+
+
         }
         catch
         {
@@ -31,4 +32,27 @@ public class DatabaseQueryHelper
         
         return null;
     }
+    public int GetRowsCount(MySqlCommand command)
+    {
+        try
+        {
+            command.Connection = _mySqlConnection;
+            command.Connection.Open();
+            var reader =  command.ExecuteReader();
+            var count = 0;
+            while (reader.Read())
+                ++count;
+            command.Connection.Close();
+            return count;
+
+        }
+        catch
+        {
+            command.Connection.Close();
+            throw new DatabaseQueryException("Cannot send query to database");
+        }
+        
+        return -1;
+    }
+    
 }

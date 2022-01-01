@@ -20,6 +20,12 @@ namespace IT_Service_Help_Desk.Controllers
             var tickets = _services.GetAllTicketsFromPage(page);
             return Ok(tickets);
         }
+        [HttpGet("{id}")]
+        public IActionResult GetTicketById(int id)
+        {
+            var ticket = _services.GetTicketById(id);
+            return Ok(ticket);
+        }
 
     }
 }
