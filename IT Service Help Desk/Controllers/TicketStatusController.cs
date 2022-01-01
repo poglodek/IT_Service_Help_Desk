@@ -19,4 +19,9 @@ public class TicketStatusController : ControllerBase
     {
         return Ok(_services.GetAll());
     }
+    [HttpPost]
+    public IActionResult AddStatus([FromBody] string status)
+    {
+        return _services.AddStatus(status) ? Created(String.Empty, null) : Conflict();
+    }
 }

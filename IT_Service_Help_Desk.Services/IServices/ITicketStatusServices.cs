@@ -6,4 +6,5 @@ namespace IT_Service_Help_Desk.Services.IServices;
 public interface ITicketStatusServices
 {
     IEnumerable<TicketStatusDto> GetAll();
+    bool AddStatus(string status);
 }

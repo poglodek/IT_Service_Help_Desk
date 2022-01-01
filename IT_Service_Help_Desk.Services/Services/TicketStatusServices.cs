@@ -23,4 +23,14 @@ public class TicketStatusServices : ITicketStatusServices
         var ticketStatus = _management.GetResultsFromQuery<Tickets_Status>("SELECT * FROM Tickets_Status");
         return _mapper.Map<IEnumerable<TicketStatusDto>>(ticketStatus);
     }
+
+    public bool AddStatus(string status)
+    {
+        var model = new Tickets_Status
+        {
+            Status = status
+        };
+        _management.InsertObject<Tickets_Status>("Tickets_Status", model);
+        return true;
+    }
 }

@@ -22,4 +22,14 @@ public class TicketTypeServices : ITicketTypeServices
         var ticketStatus = _management.GetResultsFromQuery<Tickets_Type>("SELECT * FROM Tickets_Type");
         return _mapper.Map<IEnumerable<TicketTypeDto>>(ticketStatus);
     }
+
+    public bool AddType(string type)
+    {
+        var model = new Tickets_Type
+        {
+            TypeName = type
+        };
+        _management.InsertObject<Tickets_Type>("Tickets_Type", model);
+        return true;
+    }
 }

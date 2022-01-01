@@ -18,4 +18,9 @@ public class TicketTypeController : ControllerBase
     {
         return Ok(_services.GetAll());
     }
+    [HttpPost]
+    public IActionResult AddType([FromBody] string type)
+    {
+        return _services.AddType(type) ? Created(String.Empty, null) : Conflict();
+    }
 }
