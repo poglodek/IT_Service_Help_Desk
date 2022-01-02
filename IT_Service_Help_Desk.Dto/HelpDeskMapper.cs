@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using IT_Service_Help_Desk.Database.Entity;
 using IT_Service_Help_Desk.Dto.Role;
+using IT_Service_Help_Desk.Dto.Ticket;
 using IT_Service_Help_Desk.Dto.TicketStatus;
 using IT_Service_Help_Desk.Dto.User;
 
@@ -17,6 +18,8 @@ public class HelpDeskMapper : Profile
         CreateMap<TicketStatusDto,Tickets_Status>()
             .ReverseMap();
         CreateMap<TicketTypeDto,Tickets_Type>()
+            .ReverseMap();
+        CreateMap<Database.Entity.Ticket, TicketDto>()
             .ReverseMap();
     }
 }

@@ -47,11 +47,16 @@ public class TicketServices : ITicketServices
         cmd.CommandText =
             "SELECT tickets.Id, tickets.Title, tickets.Description, users.FirstName, users.LastName, users.Email, tickets_status.Status, tickets_type.TypeName, tickets.DateTime FROM `tickets` INNER JOIN users, tickets_type, tickets_status WHERE tickets.Id = @id and tickets_type.Id = tickets.Id_tickets_type and tickets_status.Id = tickets.Id_tickets_status and tickets.Id_user_Created = users.Id LIMIT 1;";
         cmd.Parameters.AddWithValue("@id", id);
-        var a = _queryHelper.GetRowsCount(cmd);
-        if( a == 0)
+        if( _queryHelper.GetRowsCount(cmd) == 0)
             throw new NotFoundException("Ticket not found");
         var reader = _queryHelper.SendQuery(cmd);
         var str = _databaseHelper.GetJsonFromReader(reader,false);
         return JsonConvert.DeserializeObject<TicketDto>(str);
+    }
+
+    public void DeleteTicketById(int id)
+    {
+        var ticketDto =  GetTicketById(id);
+        _databaseManagement.DeleteObject<Ticket>("tickets", _mapper.Map<Ticket>(ticketDto));
     }
 }

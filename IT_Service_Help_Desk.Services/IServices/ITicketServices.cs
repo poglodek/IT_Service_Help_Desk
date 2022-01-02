@@ -6,4 +6,5 @@ public interface ITicketServices
 {
     IEnumerable<TicketInListDto> GetAllTicketsFromPage(int page);
     TicketDto GetTicketById(int id);
+    void DeleteTicketById(int id);
 }

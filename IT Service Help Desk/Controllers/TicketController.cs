@@ -1,4 +1,5 @@
-﻿using IT_Service_Help_Desk.Services.Services;
+﻿using IT_Service_Help_Desk.Dto.Ticket;
+using IT_Service_Help_Desk.Services.Services;
 using Microsoft.AspNetCore.Mvc;
 
 
@@ -25,6 +26,18 @@ namespace IT_Service_Help_Desk.Controllers
         {
             var ticket = _services.GetTicketById(id);
             return Ok(ticket);
+        }
+        [HttpDelete("{id}")]
+        public IActionResult DeleteTicketById(int id)
+        {
+            _services.DeleteTicketById(id);
+            return Ok();
+        }
+        [HttpPost]
+        public IActionResult CreateTicket([FromBody] TicketDto ticket)
+        {
+          //  _services.CreateTicket(ticket);
+            return Ok();
         }
 
     }
