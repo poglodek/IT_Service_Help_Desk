@@ -44,6 +44,6 @@ public class TicketController_Test : IClassFixture<WebApplicationFactory<Program
         var response = _client.GetAsync("/Ticket/9999999").Result;
         //Assert
         response.StatusCode.Should().Be(HttpStatusCode.NotFound);
-
     }
+    
 }

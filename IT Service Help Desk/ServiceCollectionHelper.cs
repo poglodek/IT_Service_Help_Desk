@@ -1,6 +1,7 @@
 ﻿using IT_Service_Help_Desk.Database;
 using IT_Service_Help_Desk.Database.Entity;
 using IT_Service_Help_Desk.Dto;
+using IT_Service_Help_Desk.Dto.Ticket;
 using IT_Service_Help_Desk.Dto.User;
 using IT_Service_Help_Desk.Helpers;
 using IT_Service_Help_Desk.IO.Services;
@@ -8,6 +9,7 @@ using IT_Service_Help_Desk.Services.IServices;
 using IT_Service_Help_Desk.Services.Services;
 using IT_Service_Help_Desk.Validator;
 using IT_Service_Help_Desk.Validator.Helpers;
+using IT_Service_Help_Desk.Validator.Ticket;
 using IT_Service_Help_Desk.Validator.User;
 using JsonConverters;
 using Microsoft.AspNetCore.Identity;
@@ -33,6 +35,7 @@ public class ServiceCollectionHelper
         serviceCollection.AddScoped<DatabaseManagement>();
         serviceCollection.AddScoped<EmailValidator>();
         serviceCollection.AddScoped<IValid<RegisterDto>,RegisterDtoValidator>();
+        serviceCollection.AddScoped<IValid<CreateTicketDto>,CreateTicketDtoValidator>();
         serviceCollection.AddTransient<ILogger,Logger>();
 
     }

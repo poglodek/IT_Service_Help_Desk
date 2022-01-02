@@ -4,6 +4,7 @@ using IT_Service_Help_Desk.Database.Entity;
 using IT_Service_Help_Desk.Dto.Ticket;
 using IT_Service_Help_Desk.Exception;
 using IT_Service_Help_Desk.Helpers;
+using IT_Service_Help_Desk.Validator;
 using JsonConverters;
 using MySql.Data.MySqlClient;
 using Newtonsoft.Json;
@@ -13,16 +14,19 @@ namespace IT_Service_Help_Desk.Services.Services;
 public class TicketServices : ITicketServices
 {
     private readonly IMapper _mapper;
+    private readonly IValid<CreateTicketDto> _valid;
     private readonly DatabaseHelper _databaseHelper;
     private readonly DatabaseQueryHelper _queryHelper;
     private readonly DatabaseManagement _databaseManagement;
 
     public TicketServices(IMapper mapper,
+        IValid<CreateTicketDto> valid,
         DatabaseHelper databaseHelper,
         DatabaseQueryHelper queryHelper,
         DatabaseManagement databaseManagement)
     {
         _mapper = mapper;
+        _valid = valid;
         _databaseHelper = databaseHelper;
         _queryHelper = queryHelper;
         _databaseManagement = databaseManagement;
@@ -58,5 +62,23 @@ public class TicketServices : ITicketServices
     {
         var ticketDto =  GetTicketById(id);
         _databaseManagement.DeleteObject<Ticket>("tickets", _mapper.Map<Ticket>(ticketDto));
+    }
+
+    public bool CreateTicket(CreateTicketDto ticket)
+    {
+        var valid = _valid.IsValid(ticket);
+        if (!valid.Item1)
+            throw new NotValidException(valid.Item2);
+        var cmd = new MySqlCommand();
+        cmd.CommandText = "INSERT INTO `tickets` (`Id_user_Created`, `Id_tickets_type`, `Id_tickets_status`, `Title`, `Description`, `DateTime`) VALUES (@id_user_Created, @id_tickets_type, @id_tickets_status, @title, @description, @dateTime);";
+        cmd.Parameters.AddWithValue("@id_user_Created", ticket.Id_user_Created);
+        cmd.Parameters.AddWithValue("@id_tickets_type", ticket.Id_tickets_type);
+        cmd.Parameters.AddWithValue("@id_tickets_status", ticket.Id_tickets_status);
+        cmd.Parameters.AddWithValue("@title", ticket.Title);
+        cmd.Parameters.AddWithValue("@description", ticket.Description);
+        cmd.Parameters.AddWithValue("@dateTime", ticket.DateTime);
+        var reader = _queryHelper.SendQuery(cmd);
+        return !(reader is null);
+
     }
 }

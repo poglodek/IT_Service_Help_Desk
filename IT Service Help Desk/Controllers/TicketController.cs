@@ -34,10 +34,9 @@ namespace IT_Service_Help_Desk.Controllers
             return Ok();
         }
         [HttpPost]
-        public IActionResult CreateTicket([FromBody] TicketDto ticket)
+        public IActionResult CreateTicket([FromBody] CreateTicketDto ticket)
         {
-          //  _services.CreateTicket(ticket);
-            return Ok();
+            return _services.CreateTicket(ticket) ? Created(string.Empty,null) : Conflict();
         }
 
     }
