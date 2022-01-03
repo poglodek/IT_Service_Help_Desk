@@ -13,18 +13,19 @@ public class CreateTicketDtoValidator_Test
         var validator = new CreateTicketDtoValidator();
         var model = new CreateTicketDto()
         {
-             Description = "TestDesc 123",
-             Title = "TestTitle 123",
-             DateTime = DateTime.Now,
-             Id_tickets_status = 1,
-             Id_tickets_type = 1,
-             Id_user_Created = 1
+            Description = "TestDesc 123",
+            Title = "TestTitle 123",
+            DateTime = DateTime.Now,
+            Id_tickets_status = 1,
+            Id_tickets_type = 1,
+            Id_user_Created = 1
         };
         //Act
         var result = validator.IsValid(model).Item1;
         //Assert
         Assert.True(result);
     }
+
     [Theory]
     [InlineData("")]
     [InlineData("       ")]
@@ -48,6 +49,7 @@ public class CreateTicketDtoValidator_Test
         //Assert
         Assert.False(result);
     }
+
     [Theory]
     [InlineData("")]
     [InlineData("       ")]
@@ -71,6 +73,7 @@ public class CreateTicketDtoValidator_Test
         //Assert
         Assert.False(result);
     }
+
     [Fact]
     public void IsValid_InValidDateTimeMinus69eYears_ReturnFalse()
     {
@@ -90,6 +93,7 @@ public class CreateTicketDtoValidator_Test
         //Assert
         Assert.False(result);
     }
+
     [Fact]
     public void IsValid_InValidDateTimeAdd69eYears_ReturnFalse()
     {
@@ -109,5 +113,4 @@ public class CreateTicketDtoValidator_Test
         //Assert
         Assert.False(result);
     }
-    
 }
