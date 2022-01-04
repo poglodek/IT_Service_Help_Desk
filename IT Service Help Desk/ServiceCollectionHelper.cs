@@ -37,6 +37,7 @@ public class ServiceCollectionHelper
         serviceCollection.AddScoped<IValid<RegisterDto>,RegisterDtoValidator>();
         serviceCollection.AddScoped<IValid<CreateTicketDto>,CreateTicketDtoValidator>();
         serviceCollection.AddTransient<ILogger,Logger>();
+        serviceCollection.AddScoped<IUserContextServices, UserContextServices>();
 
     }
 }

@@ -7,6 +7,7 @@ using IT_Service_Help_Desk.Helpers;
 using IT_Service_Help_Desk.Validator;
 using JsonConverters;
 using System.Security.Claims;
+using IT_Service_Help_Desk.Services.IServices;
 using MySql.Data.MySqlClient;
 using Newtonsoft.Json;
 
@@ -16,18 +17,21 @@ public class TicketServices : ITicketServices
 {
     private readonly IMapper _mapper;
     private readonly IValid<CreateTicketDto> _valid;
+    private readonly IUserContextServices _contextServices;
     private readonly DatabaseHelper _databaseHelper;
     private readonly DatabaseQueryHelper _queryHelper;
     private readonly DatabaseManagement _databaseManagement;
 
     public TicketServices(IMapper mapper,
         IValid<CreateTicketDto> valid,
+        IUserContextServices contextServices,
         DatabaseHelper databaseHelper,
         DatabaseQueryHelper queryHelper,
         DatabaseManagement databaseManagement)
     {
         _mapper = mapper;
         _valid = valid;
+        _contextServices = contextServices;
         _databaseHelper = databaseHelper;
         _queryHelper = queryHelper;
         _databaseManagement = databaseManagement;
@@ -72,7 +76,7 @@ public class TicketServices : ITicketServices
             throw new NotValidException(valid.Item2);
         var cmd = new MySqlCommand();
         cmd.CommandText = "INSERT INTO `tickets` (`Id_user_Created`, `Id_tickets_type`, `Id_tickets_status`, `Title`, `Description`, `DateTime`) VALUES (@id_user_Created, @id_tickets_type, @id_tickets_status, @title, @description, @dateTime);";
-        cmd.Parameters.AddWithValue("@id_user_Created", ticket.Id_user_Created);
+        cmd.Parameters.AddWithValue("@id_user_Created", _contextServices.GetUserId());
         cmd.Parameters.AddWithValue("@id_tickets_type", ticket.Id_tickets_type);
         cmd.Parameters.AddWithValue("@id_tickets_status", ticket.Id_tickets_status);
         cmd.Parameters.AddWithValue("@title", ticket.Title);
