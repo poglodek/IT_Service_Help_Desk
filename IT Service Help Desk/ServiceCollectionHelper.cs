@@ -20,10 +20,13 @@ public class ServiceCollectionHelper
 {
     public static void AddServices(IServiceCollection serviceCollection)
     {
+        serviceCollection.AddHttpContextAccessor();
+        serviceCollection.AddScoped<IUserContextServices, UserContextServices>();
         serviceCollection.AddTransient<ErrorHandlingMiddleware>();
         serviceCollection.AddScoped<IUserServices, UserServices>();
         serviceCollection.AddScoped<IRoleServices, RoleServices>();
         serviceCollection.AddScoped<ITicketServices, TicketServices>();
+        serviceCollection.AddScoped<ITicketCommentServices, TicketCommentServices>();
         serviceCollection.AddScoped<ITicketStatusServices, TicketStatusServices>();
         serviceCollection.AddScoped<ITicketTypeServices, TicketTypeServices>();
         serviceCollection.AddAutoMapper(typeof(HelpDeskMapper).Assembly);
@@ -37,7 +40,7 @@ public class ServiceCollectionHelper
         serviceCollection.AddScoped<IValid<RegisterDto>,RegisterDtoValidator>();
         serviceCollection.AddScoped<IValid<CreateTicketDto>,CreateTicketDtoValidator>();
         serviceCollection.AddTransient<ILogger,Logger>();
-        serviceCollection.AddScoped<IUserContextServices, UserContextServices>();
+        
 
     }
 }

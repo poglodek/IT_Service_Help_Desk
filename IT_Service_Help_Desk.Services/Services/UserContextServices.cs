@@ -6,7 +6,7 @@ using Microsoft.AspNetCore.Http;
 namespace IT_Service_Help_Desk.Services.Services;
 
 public class UserContextServices : IUserContextServices
-{
+{ 
     private readonly IHttpContextAccessor _httpContextAccessor;
 
     public UserContextServices(IHttpContextAccessor httpContextAccessor)
@@ -27,5 +27,6 @@ public class UserContextServices : IUserContextServices
         {
             throw new NotFoundException("User not found.");
         }
-    }
+    } 
+    
 }
