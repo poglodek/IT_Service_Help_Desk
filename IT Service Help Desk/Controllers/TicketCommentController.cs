@@ -1,4 +1,5 @@
-﻿using IT_Service_Help_Desk.Services.IServices;
+﻿using IT_Service_Help_Desk.Dto.TicketComment;
+using IT_Service_Help_Desk.Services.IServices;
 using IT_Service_Help_Desk.Services.Services;
 using Microsoft.AspNetCore.Mvc;
 
@@ -18,5 +19,10 @@ public class TicketCommentController : ControllerBase
     public IActionResult GetCommentFromTicketId([FromQuery] int ticketId, [FromQuery] int page = 0)
     {
         return Ok(_commentServices.GetTicketComments(ticketId,page));
+    }
+    [HttpPost]
+    public IActionResult AddComment([FromBody] TicketCommentAddDto comment)
+    {
+        return Ok(_commentServices.AddComment(comment));
     }
 }

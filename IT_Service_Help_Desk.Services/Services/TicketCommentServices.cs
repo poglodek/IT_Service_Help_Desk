@@ -43,4 +43,15 @@ public class TicketCommentServices : ITicketCommentServices
             throw new NotFoundException("No comments found");
         return JsonConvert.DeserializeObject<IEnumerable<TicketCommentDto>>(str);
     }
+
+    public bool AddComment(TicketCommentAddDto comment)
+    {
+        var cmd = new MySqlCommand();
+        cmd.CommandText = "INSERT INTO tickets_comments (Id_Tickets, Id_user, Comment, DateTime) VALUES (@id_ticket, @id_user, @comment, @dateTime)";
+        cmd.Parameters.AddWithValue("@id_ticket", comment.TicketId);
+        cmd.Parameters.AddWithValue("@id_user", _contextServices.GetUserId());
+        cmd.Parameters.AddWithValue("@comment", comment.Comment);
+        cmd.Parameters.AddWithValue("@dateTime", DateTime.Now);
+        return _queryHelper.SendQuery(cmd) is not null;
+    }
 }

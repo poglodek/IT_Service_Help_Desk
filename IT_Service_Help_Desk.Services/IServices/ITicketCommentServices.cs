@@ -5,4 +5,5 @@ namespace IT_Service_Help_Desk.Services.IServices;
 public interface ITicketCommentServices
 {
     IEnumerable<TicketCommentDto> GetTicketComments(int ticketId, int page);
+    bool AddComment(TicketCommentAddDto comment);
 }
